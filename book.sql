@@ -126,7 +126,20 @@ SELECT Book_Name, COUNT(Book_Price) AS Count_Book_Price FROM Book_Details GROUP 
 
 SELECT Publish_Year, COUNT(Book_Name) AS count_book_name, Book_Name FROM Book_Details WHERE Publish_Year > 2005 GROUP BY Publish_Year;
 
+SELECT Publish_Year,SUM(Book_Price) AS Total_Sum_of_Book FROM Book_Details GROUP BY Publish_Year ORDER BY Publish_Year;
 
+SELECT Volume,count(Book_Name) AS No_of_books_in_Volume FROM Book_Details GROUP BY Volume HAVING No_of_books_in_Volume>1;
 
+SELECT Volume,count(Book_Name) AS No_of_books_in_volume FROM Book_Details GROUP BY Volume HAVING No_of_books_in_volume>1;
 
-	
+/*ROLLBACK can only be used with DML commands(INSERT,UPDATE,DELETE)--*/
+
+SET AUTOCOMMIT=0;
+DELETE FROM Book_Details WHERE Book_id=8;
+ROLLBACK;
+DELETE FROM Book_Details WHERE Book_id=7;	
+SAVEPOINT T1;
+DELETE FROM Books_details WHERE BOOK_id=8;
+SAVEPOINT T2;
+ROLLBACK;
+SELECT*FROM Book_Details;
